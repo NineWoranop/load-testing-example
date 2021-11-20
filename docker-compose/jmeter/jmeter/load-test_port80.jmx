@@ -32,12 +32,12 @@
           </elementProp>
           <elementProp name="HOST_PORT" elementType="Argument">
             <stringProp name="Argument.name">HOST_PORT</stringProp>
-            <stringProp name="Argument.value">9095</stringProp>
+            <stringProp name="Argument.value">80</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="PREFIX_PATH" elementType="Argument">
             <stringProp name="Argument.name">PREFIX_PATH</stringProp>
-            <stringProp name="Argument.value"></stringProp>
+            <stringProp name="Argument.value">/spring</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="FINDALL_PATH" elementType="Argument">

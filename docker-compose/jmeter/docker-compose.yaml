@@ -1,0 +1,43 @@
+version: '3.3'
+
+volumes:
+    prometheus_data: {}
+    # grafana_data: {}
+
+services:
+  jmetermaster:
+    image: ninetom/jmeter5:5.4.1
+    container_name: jmetermaster
+    ports:
+    - 3333:3333
+    command:
+      - '-n'
+      - '-Djava.rmi.server.hostname=jmetermaster'
+      - '-Jserver.rmi.ssl.disable=true'
+      - '-t'
+      - '/home/jmeter/bin/load-test.jmx'
+      - '-R'
+      - 'jmeterslave1:5555'
+      - '-Jclient.rmi.localport=3333'
+    volumes:
+      - ./jmeter/rmi_keystore.jks:/home/jmeter/bin/rmi_keystore.jks:ro
+      - ./jmeter/load-test.jmx:/home/jmeter/bin/load-test.jmx:ro
+      - ./jmeter/jmeter-master.log:/home/jmeter/bin/jmeter.log
+    links:
+      - jmeterslave1:jmeterslave1
+  jmeterslave1:
+    image: ninetom/jmeter5:5.4.1
+    container_name: jmeterslave1
+    ports:
+    - 5555:5555
+    command:
+      - '-Djava.rmi.server.hostname=jmeterslave1'
+      - '-Jclient.rmi.localport=3333'
+      - '-Jserver_port=5555'
+      - '-Jserver.rmi.ssl.disable=true'
+    entrypoint: '/home/jmeter/bin/jmeter-server'
+    volumes:
+      - ./jmeter/rmi_keystore.jks:/home/jmeter/bin/rmi_keystore.jks:ro
+      - ./jmeter/jmeter-slave1.log:/home/jmeter/bin/jmeter-server.log
+    extra_hosts:
+      - 'app.server.internal:10.187.1.52'

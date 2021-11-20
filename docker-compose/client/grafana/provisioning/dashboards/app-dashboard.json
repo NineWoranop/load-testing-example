@@ -90,7 +90,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "time() - container_start_time_seconds{name=\"app-spring\",job=\"app-cont\"}",
+          "expr": "time() - container_start_time_seconds{name=\"appspring\",job=\"app-cont\"}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -206,7 +206,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "100 - (avg by (instance) (irate(node_cpu_seconds_total{job=\"app-host\",mode=\"idle\"}[1m])) * 100)",
+          "expr": "(((count(count(node_cpu_seconds_total{job=\"app-host\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',job=\"app-host\"}[1m])))) * 100) / count(count(node_cpu_seconds_total{job=\"app-host\"}) by (cpu))",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -485,7 +485,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "100 - (avg by (cpu) (irate(node_cpu_seconds_total{job=\"app-host\",mode=\"idle\"}[1m])) * 100)",
+          "expr": "(((count(count(node_cpu_seconds_total{job=\"app-host\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',job=\"app-host\"}[1m])))) * 100) / count(count(node_cpu_seconds_total{job=\"app-host\"}) by (cpu))",
           "interval": "",
           "legendFormat": "{{cpu}}",
           "refId": "A"
@@ -547,7 +547,32 @@
           },
           "unit": "percent"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "app.server.internal:9100"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 6,
@@ -1047,7 +1072,7 @@
         "x": 0,
         "y": 18
       },
-      "id": 6,
+      "id": 44,
       "options": {
         "legend": {
           "calcs": [],
@@ -1061,10 +1086,10 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "container_cpu_load_average_10s{image!=\"\",job=\"app-cont\"}",
+          "expr": "sum by (name) (rate(container_cpu_user_seconds_total{image!=\"\", job=\"app-cont\"}[1m]))*100",
           "interval": "10s",
           "intervalFactor": 1,
-          "legendFormat": "{{ name }}",
+          "legendFormat": "{{name}}",
           "refId": "A"
         }
       ],
@@ -1725,7 +1750,7 @@
       "type": "timeseries"
     }
   ],
-  "refresh": "1m",
+  "refresh": "5s",
   "schemaVersion": 31,
   "style": "dark",
   "tags": [],
@@ -1733,12 +1758,12 @@
     "list": []
   },
   "time": {
-    "from": "now-1m",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Monitoring App",
   "uid": "zb2ykCK7z",
-  "version": 2
+  "version": 1
 }

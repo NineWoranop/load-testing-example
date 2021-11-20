@@ -23,17 +23,27 @@ services:
     command:
       - '-Dserver.port=9095'
       - '-Dserver.tomcat.max-connections=10000'
-      - '-Dserver.tomcat.min-spare-threads=100'
-      - '-Dserver.tomcat.max-threads=100'
-      - '-Dspring.datasource.hikari.minimum-idle=100'
-      - '-Dspring.datasource.hikari.maximum-pool-size=100'
+      - '-Dserver.tomcat.min-spare-threads=50'
+      - '-Dserver.tomcat.max-threads=5000'
+      - '-Dspring.datasource.hikari.minimum-idle=50'
+      - '-Dspring.datasource.hikari.maximum-pool-size=5000'
       - '-Dmanagement.endpoint.metrics.enabled=true'
       - '-Dmanagement.endpoint.prometheus.enabled=true'
       - '-Dmanagement.endpoints.web.exposure.include=*'
       - '-Dserver.tomcat.mbeanregistry.enabled=true'
+      - '-Xms2048m'
+      - '-Xmx2048m'
       - '-jar'
       - 'app.jar'
     entrypoint: 'java'
+    deploy:
+      resources:
+        limits:
+          cpus: '0.90'
+          memory: 2300M
+        reservations:
+          cpus: '0.1'
+          memory: 2300M
 
   nginx:
     image: nginx:1.21.4-perl
@@ -44,3 +54,9 @@ services:
     - ./nginx/index.html:/usr/share/nginx/html/index.html:ro
     - ./nginx/404.html:/usr/share/nginx/html/404.html:ro
     - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    deploy:
+      resources:
+        limits:
+          cpus: '0.49'
+        reservations:
+          cpus: '0.01'

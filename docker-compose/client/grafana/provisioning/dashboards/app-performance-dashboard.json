@@ -22,8 +22,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 7,
-  "iteration": 1637329197352,
+  "iteration": 1637409718879,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -92,7 +91,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "100 - (avg by (instance) (irate(node_cpu_seconds_total{job=\"app-host\",mode=\"idle\"}[1m])) * 100)",
+          "expr": "(((count(count(node_cpu_seconds_total{job=\"app-host\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',job=\"app-host\"}[1m])))) * 100) / count(count(node_cpu_seconds_total{job=\"app-host\"}) by (cpu))",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -238,9 +237,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "100 - (avg by (cpu) (irate(node_cpu_seconds_total{job=\"app-host\",mode=\"idle\"}[1m])) * 100)",
+          "expr": "(((count(count(node_cpu_seconds_total{job=\"app-host\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',job=\"app-host\"}[1m])))) * 100) / count(count(node_cpu_seconds_total{job=\"app-host\"}) by (cpu))",
           "interval": "",
-          "legendFormat": "{{cpu}}",
+          "legendFormat": "avg",
           "refId": "A"
         }
       ],
@@ -451,23 +450,31 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "Prometheus",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 15,
+        "h": 16,
         "w": 10,
         "x": 0,
         "y": 8
       },
       "hiddenSeries": false,
-      "id": 18,
+      "id": 12,
       "legend": {
         "alignAsTable": true,
         "avg": true,
-        "current": false,
+        "current": true,
+        "hideEmpty": true,
+        "hideZero": false,
         "max": true,
         "min": true,
-        "rightSide": true,
         "show": true,
         "total": false,
         "values": true
@@ -486,15 +493,14 @@
       "renderer": "flot",
       "seriesOverrides": [],
       "spaceLength": 10,
-      "stack": false,
+      "stack": true,
       "steppedLine": false,
       "targets": [
         {
           "exemplar": true,
           "expr": "jvm_threads_states_threads{job=\"app-spring\"}",
-          "format": "time_series",
+          "hide": false,
           "interval": "",
-          "intervalFactor": 1,
           "legendFormat": "{{state}}",
           "refId": "A"
         },
@@ -543,21 +549,21 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:428",
+          "$$hashKey": "object:187",
           "format": "short",
-          "label": "",
+          "label": null,
           "logBase": 1,
           "max": null,
           "min": "0",
           "show": true
         },
         {
-          "$$hashKey": "object:429",
+          "$$hashKey": "object:188",
           "format": "short",
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         }
       ],
@@ -690,119 +696,127 @@
       "type": "timeseries"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "Prometheus",
-      "description": "",
+      "datasource": null,
       "fieldConfig": {
         "defaults": {
-          "unit": "short"
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
         },
         "overrides": []
       },
-      "fill": 1,
-      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 7,
         "x": 17,
         "y": 8
       },
-      "hiddenSeries": false,
-      "id": 12,
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": true,
-        "hideEmpty": true,
-        "hideZero": false,
-        "max": true,
-        "min": true,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
+      "id": 49,
       "options": {
-        "alertThreshold": true
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
       },
-      "percentage": false,
-      "pluginVersion": "8.2.2",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": false,
       "targets": [
         {
           "exemplar": true,
-          "expr": "tomcat_connections_current_connections{job=\"app-spring\"}",
-          "format": "time_series",
+          "expr": "node_netstat_Tcp_CurrEstab{job=\"app-host\"}",
           "interval": "",
-          "intervalFactor": 1,
-          "legendFormat": "Current",
+          "legendFormat": "Established",
+          "refId": "A"
+        },
+        {
+          "exemplar": true,
+          "expr": "node_sockstat_TCP_tw{job=\"app-host\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "tw",
           "refId": "B"
         },
         {
           "exemplar": true,
-          "expr": "tomcat_connections_config_max_connections{job=\"app-spring\"}",
-          "format": "time_series",
-          "hide": true,
+          "expr": "irate(node_netstat_Tcp_ActiveOpens{job=\"app-host\"}[1m])",
+          "hide": false,
           "interval": "",
-          "intervalFactor": 1,
-          "legendFormat": "Max",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Tomcat Connections",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:187",
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": "0",
-          "show": true
+          "legendFormat": "ActiveOpens",
+          "refId": "C"
         },
         {
-          "$$hashKey": "object:188",
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": "0",
-          "show": true
+          "exemplar": true,
+          "expr": "irate(node_netstat_Tcp_PassiveOpens{job=\"app-host\"}[1m])",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "PassiveOpens",
+          "refId": "D"
+        },
+        {
+          "exemplar": true,
+          "expr": "node_sockstat_TCP_alloc{job=\"app-host\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "alloc",
+          "refId": "E"
+        },
+        {
+          "exemplar": true,
+          "expr": "node_sockstat_TCP_inuse{job=\"app-host\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "inuse",
+          "refId": "F"
         }
       ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
+      "title": "TCP Connections",
+      "type": "timeseries"
     },
     {
       "aliasColors": {},
@@ -1277,7 +1291,7 @@
       "error": false,
       "fieldConfig": {
         "defaults": {
-          "unit": "decbytes"
+          "unit": "Bps"
         },
         "overrides": []
       },
@@ -1356,7 +1370,7 @@
       "yaxes": [
         {
           "$$hashKey": "object:394",
-          "format": "decbytes",
+          "format": "Bps",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -1389,7 +1403,7 @@
       "error": false,
       "fieldConfig": {
         "defaults": {
-          "unit": "decbytes"
+          "unit": "Bps"
         },
         "overrides": []
       },
@@ -1470,7 +1484,7 @@
         {
           "$$hashKey": "object:220",
           "decimals": null,
-          "format": "decbytes",
+          "format": "Bps",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -1542,7 +1556,7 @@
               }
             ]
           },
-          "unit": "decbytes"
+          "unit": "Bps"
         },
         "overrides": []
       },
@@ -1696,7 +1710,7 @@
       }
     }
   ],
-  "refresh": "5s",
+  "refresh": "10s",
   "schemaVersion": 31,
   "style": "dark",
   "tags": [],
@@ -1732,12 +1746,12 @@
     ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Monitoring App - Performance",
   "uid": "sBtVf35nk",
-  "version": 12
+  "version": 1
 }

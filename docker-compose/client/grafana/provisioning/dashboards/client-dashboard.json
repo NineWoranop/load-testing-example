@@ -1149,7 +1149,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "container_cpu_load_average_10s{image!=\"\",job=\"cli-cont\"}",
+          "expr": "sum by (name) (rate(container_cpu_user_seconds_total{image!=\"\", job=\"cli-cont\"}[1m]))*100",
           "interval": "10s",
           "intervalFactor": 1,
           "legendFormat": "{{ name }}",
