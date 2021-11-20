@@ -1,0 +1,1 @@
+copy ..\..\example-backend\target\example-backend-0.0.1-SNAPSHOT.jar .\app-spring-boot.jar

@@ -1,0 +1,46 @@
+version: '3.3'
+
+services:
+  appcadvisor:
+    image: google/cadvisor:v0.33.0
+    container_name: 'appcadvisor'
+    ports:
+    - 8082:8080
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:ro
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
+    - /dev/disk:/dev/disk/:ro
+    depends_on:
+    - appspring
+
+  appspring:
+    image: ninetom/spring-boot2-examples-backend:latest
+    container_name: 'appspring'
+    ports:
+    - 9095:9095
+    command:
+      - '-Dserver.port=9095'
+      - '-Dserver.tomcat.max-connections=10000'
+      - '-Dserver.tomcat.min-spare-threads=100'
+      - '-Dserver.tomcat.max-threads=100'
+      - '-Dspring.datasource.hikari.minimum-idle=100'
+      - '-Dspring.datasource.hikari.maximum-pool-size=100'
+      - '-Dmanagement.endpoint.metrics.enabled=true'
+      - '-Dmanagement.endpoint.prometheus.enabled=true'
+      - '-Dmanagement.endpoints.web.exposure.include=*'
+      - '-Dserver.tomcat.mbeanregistry.enabled=true'
+      - '-jar'
+      - 'app.jar'
+    entrypoint: 'java'
+
+  nginx:
+    image: nginx:1.21.4-perl
+    container_name: nginx
+    ports:
+    - 80:80
+    volumes:
+    - ./nginx/index.html:/usr/share/nginx/html/index.html:ro
+    - ./nginx/404.html:/usr/share/nginx/html/404.html:ro
+    - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
