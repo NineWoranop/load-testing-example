@@ -1,9 +1,5 @@
 version: '3.3'
 
-volumes:
-    prometheus_data: {}
-    # grafana_data: {}
-
 services:
   jmetermaster:
     image: ninetom/jmeter5:5.4.1
@@ -15,7 +11,7 @@ services:
       - '-Djava.rmi.server.hostname=jmetermaster'
       - '-Jserver.rmi.ssl.disable=true'
       - '-t'
-      - '/home/jmeter/bin/load-test.jmx'
+      - '/home/jmeter/bin/load-test_port80.jmx'
       - '-R'
       - 'jmeterslave1:5555'
       - '-Jclient.rmi.localport=3333'
@@ -23,6 +19,7 @@ services:
       - ./jmeter/rmi_keystore.jks:/home/jmeter/bin/rmi_keystore.jks:ro
       - ./jmeter/load-test.jmx:/home/jmeter/bin/load-test.jmx:ro
       - ./jmeter/jmeter-master.log:/home/jmeter/bin/jmeter.log
+      - ./jmeter/jmeter-prometheus-plugin-0.6.0.jar:/home/jmeter/lib/ext/jmeter-prometheus-plugin-0.6.0.jar
     links:
       - jmeterslave1:jmeterslave1
   jmeterslave1:

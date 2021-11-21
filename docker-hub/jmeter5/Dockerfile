@@ -11,9 +11,11 @@ RUN cd /home; \
     printf '\n' | ./create-rmi-keystore.sh -dname 'CN=jmeter';
 #    cp rmi_keystore.jks /home/jmeter/bin/;
 
+COPY jmeter-prometheus-plugin-0.6.0.jar /home/jmeter/lib/ext/jmeter-prometheus-plugin-0.6.0.jar
+
 WORKDIR /home/jmeter/bin
 
-EXPOSE 1099 50000
+EXPOSE 1099 3333
 
 # -s, --server
 #                run the JMeter server
@@ -23,8 +25,8 @@ EXPOSE 1099 50000
 #                Define additional JMeter properties
 CMD ["-s", \
      "-n", \
-	 "-Jserver_port=50000", \
-	 "-Jserver.rmi.localport=50000", \
+	 "-Jserver_port=3333", \
+	 "-Jserver.rmi.localport=3333", \
 	 "-Jserver.rmi.port=1099", \
 	 "-Jserver.rmi.ssl.disable=true" \
 ]

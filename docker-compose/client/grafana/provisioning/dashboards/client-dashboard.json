@@ -294,7 +294,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "100 - (avg by (instance) (irate(node_cpu_seconds_total{job=\"cli-host\",mode=\"idle\"}[1m])) * 100)",
+          "expr": "sum((avg by (mode) (rate(node_cpu_seconds_total{job=\"cli-host\",mode!=\"idle\"}[1m])))*200)",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -573,9 +573,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "(((count(count(node_cpu_seconds_total{job=\"cli-host\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',job=\"cli-host\"}[1m])))) * 100) / count(count(node_cpu_seconds_total{job=\"cli-host\"}) by (cpu))",
+          "expr": "sum((avg by (mode) (rate(node_cpu_seconds_total{job=\"cli-host\",mode!=\"idle\"}[1m])))*200)",
           "interval": "",
-          "legendFormat": "cpu",
+          "legendFormat": "{{cpu}}",
           "refId": "A"
         }
       ],
@@ -1813,7 +1813,7 @@
       "type": "timeseries"
     }
   ],
-  "refresh": "10s",
+  "refresh": "1m",
   "schemaVersion": 31,
   "style": "dark",
   "tags": [],
@@ -1821,7 +1821,7 @@
     "list": []
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-24h",
     "to": "now"
   },
   "timepicker": {},

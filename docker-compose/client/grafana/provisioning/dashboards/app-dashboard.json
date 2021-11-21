@@ -206,7 +206,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "(((count(count(node_cpu_seconds_total{job=\"app-host\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',job=\"app-host\"}[1m])))) * 100) / count(count(node_cpu_seconds_total{job=\"app-host\"}) by (cpu))",
+          "expr": "sum((avg by (mode) (rate(node_cpu_seconds_total{job=\"app-host\",mode!=\"idle\"}[1m])))*200)",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -485,9 +485,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "(((count(count(node_cpu_seconds_total{job=\"app-host\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',job=\"app-host\"}[1m])))) * 100) / count(count(node_cpu_seconds_total{job=\"app-host\"}) by (cpu))",
+          "expr": "sum((avg by (mode) (rate(node_cpu_seconds_total{job=\"app-host\",mode!=\"idle\"}[1m])))*200)",
           "interval": "",
-          "legendFormat": "cpu",
+          "legendFormat": "{{cpu}}",
           "refId": "A"
         }
       ],
@@ -1758,7 +1758,7 @@
     "list": []
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-24h",
     "to": "now"
   },
   "timepicker": {},
