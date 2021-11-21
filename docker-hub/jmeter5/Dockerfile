@@ -15,7 +15,7 @@ COPY jmeter-prometheus-plugin-0.6.0.jar /home/jmeter/lib/ext/jmeter-prometheus-p
 
 WORKDIR /home/jmeter/bin
 
-EXPOSE 1099 3333
+EXPOSE 1099
 
 # -s, --server
 #                run the JMeter server
@@ -25,8 +25,6 @@ EXPOSE 1099 3333
 #                Define additional JMeter properties
 CMD ["-s", \
      "-n", \
-	 "-Jserver_port=3333", \
-	 "-Jserver.rmi.localport=3333", \
 	 "-Jserver.rmi.port=1099", \
 	 "-Jserver.rmi.ssl.disable=true" \
 ]

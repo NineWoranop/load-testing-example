@@ -35,7 +35,7 @@ services:
     links:
       - alertmanager:alertmanager
       - cadvisor:cadvisor
-      - jmetermaster:jmetermaster
+      - jmeterslave1:jmeterslave1
     extra_hosts:
       - 'host.docker.internal:10.187.1.55'
       - 'app.server.internal:10.187.1.52'
@@ -78,24 +78,22 @@ services:
     container_name: jmetermaster
     ports:
     - 3333:3333
-    - 9270:9270
     command:
       - '-n'
       - '-Djava.rmi.server.hostname=jmetermaster'
       - '-Jserver.rmi.ssl.disable=true'
       - '-t'
-      - '/home/jmeter/bin/load-test_port80.jmx'
+      - '/home/jmeter/bin/jmx/load-test_port80.jmx'
       - '-R'
       - 'jmeterslave1:1099'
       - '-Jclient.rmi.localport=3333'
       - '-Jprometheus.ip=0.0.0.0'
       - '-Jprometheus.port=9270'
+      - '-Jprometheus.save.jvm=false'
     volumes:
       - ./jmeter/rmi_keystore.jks:/home/jmeter/bin/rmi_keystore.jks:ro
-      - ./jmeter/load-test.jmx:/home/jmeter/bin/load-test.jmx:ro
-      - ./jmeter/load-test_port80.jmx:/home/jmeter/bin/load-test_port80.jmx:ro
+      - ./jmeter/jmx:/home/jmeter/bin/jmx:ro
       - ./jmeter/jmeter-master.log:/home/jmeter/bin/jmeter.log
-#      - ./jmeter/jmeter-prometheus-plugin-0.6.0.jar:/home/jmeter/lib/ext/jmeter-prometheus-plugin-0.6.0.jar
     links:
       - jmeterslave1:jmeterslave1
   jmeterslave1:
@@ -103,11 +101,15 @@ services:
     container_name: jmeterslave1
     ports:
     - 1099:1099
+    - 9270:9270
     command:
       - '-Djava.rmi.server.hostname=jmeterslave1'
       - '-Jclient.rmi.localport=3333'
       - '-Jserver_port=1099'
       - '-Jserver.rmi.ssl.disable=true'
+      - '-Jprometheus.ip=0.0.0.0'
+      - '-Jprometheus.port=9270'
+      - '-Jprometheus.save.jvm=false'
     entrypoint: '/home/jmeter/bin/jmeter-server'
     volumes:
       - ./jmeter/rmi_keystore.jks:/home/jmeter/bin/rmi_keystore.jks:ro
