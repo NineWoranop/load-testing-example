@@ -22,7 +22,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": null,
   "graphTooltip": 0,
-  "iteration": 1637490494534,
+  "iteration": 1637571882003,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -441,7 +441,7 @@
           "exemplar": true,
           "expr": "rate(jmeter_latency_as_hist_sum{job=\"jmeter\"}[1m])/\nrate(jmeter_latency_as_hist_count{job=\"jmeter\"}[1m])",
           "interval": "",
-          "legendFormat": "latency",
+          "legendFormat": "{{label}}",
           "refId": "A"
         }
       ],

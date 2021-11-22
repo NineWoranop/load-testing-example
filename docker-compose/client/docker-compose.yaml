@@ -83,7 +83,7 @@ services:
       - '-Djava.rmi.server.hostname=jmetermaster'
       - '-Jserver.rmi.ssl.disable=true'
       - '-t'
-      - '/home/jmeter/bin/jmx/load-test_port80.jmx'
+      - '/home/jmeter/bin/jmx/load-test.jmx'
       - '-R'
       - 'jmeterslave1:1099'
       - '-Jclient.rmi.localport=3333'

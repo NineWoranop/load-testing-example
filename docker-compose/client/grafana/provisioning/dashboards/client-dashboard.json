@@ -743,7 +743,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "1-(node_filesystem_free_bytes{job=\"cli-host\",fstype=~\"ext4|xfs\"} / node_filesystem_size_bytes{job=\"cli-host\",fstype=~\"ext4|xfs\"})",
+          "expr": "100*(1-(node_filesystem_free_bytes{job=\"cli-host\",fstype=~\"ext4|xfs\"} / node_filesystem_size_bytes{job=\"cli-host\",fstype=~\"ext4|xfs\"}))",
           "interval": "",
           "legendFormat": "{{device}}",
           "refId": "A"
@@ -1813,7 +1813,7 @@
       "type": "timeseries"
     }
   ],
-  "refresh": "1m",
+  "refresh": "5s",
   "schemaVersion": 31,
   "style": "dark",
   "tags": [],
@@ -1821,7 +1821,7 @@
     "list": []
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {},

@@ -680,7 +680,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "1-(node_filesystem_free_bytes{job=\"app-host\",fstype=~\"ext4|xfs\"} / node_filesystem_size_bytes{job=\"app-host\",fstype=~\"ext4|xfs\"})",
+          "expr": "100*(1-(node_filesystem_free_bytes{job=\"app-host\",fstype=~\"ext4|xfs\"} / node_filesystem_size_bytes{job=\"app-host\",fstype=~\"ext4|xfs\"}))",
           "interval": "",
           "legendFormat": "{{device}}",
           "refId": "A"
@@ -1758,7 +1758,7 @@
     "list": []
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {},
