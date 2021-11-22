@@ -8,3 +8,10 @@ docker save -o nginx.tar nginx:1.21.4-perl
 docker load --input app-spring.tar
 docker load --input cadvisor.tar
 docker load --input nginx.tar
+
+sudo systemctl stop docker.socket
+sudo systemctl stop docker
+sudo systemctl start docker.socket
+sudo systemctl start docker
+sudo systemctl daemon-reload
+sudo systemctl restart docker
