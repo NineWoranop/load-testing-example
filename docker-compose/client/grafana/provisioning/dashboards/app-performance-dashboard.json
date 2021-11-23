@@ -22,7 +22,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": null,
   "graphTooltip": 0,
-  "iteration": 1637453171523,
+  "iteration": 1637645032961,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -91,7 +91,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum((avg by (mode) (rate(node_cpu_seconds_total{job=\"app-host\",mode!=\"idle\"}[1m])))*200)",
+          "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{job=\"app-host\",mode=\"idle\"}[1m])) * 100)",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -237,7 +237,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum((avg by (mode) (rate(node_cpu_seconds_total{job=\"app-host\",mode!=\"idle\"}[1m])))*200)",
+          "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{job=\"app-host\",mode=\"idle\"}[1m])) * 100)",
           "interval": "",
           "legendFormat": "avg",
           "refId": "A"
@@ -1710,7 +1710,7 @@
       }
     }
   ],
-  "refresh": "10s",
+  "refresh": "5s",
   "schemaVersion": 31,
   "style": "dark",
   "tags": [],

@@ -294,7 +294,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum((avg by (mode) (rate(node_cpu_seconds_total{job=\"cli-host\",mode!=\"idle\"}[1m])))*200)",
+          "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{job=\"cli-host\",mode=\"idle\"}[1m])) * 100)",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -573,9 +573,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum((avg by (mode) (rate(node_cpu_seconds_total{job=\"cli-host\",mode!=\"idle\"}[1m])))*200)",
+          "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{job=\"cli-host\",mode=\"idle\"}[1m])) * 100)",
           "interval": "",
-          "legendFormat": "{{cpu}}",
+          "legendFormat": "avg",
           "refId": "A"
         }
       ],
