@@ -60,3 +60,5 @@ services:
           cpus: '0.49'
         reservations:
           cpus: '0.01'
+#    extra_hosts:
+#      - 'host.docker.internal:10.187.1.52'

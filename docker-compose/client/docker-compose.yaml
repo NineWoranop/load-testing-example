@@ -73,6 +73,8 @@ services:
     - ./nginx/index.html:/usr/share/nginx/html/index.html:ro
     - ./nginx/404.html:/usr/share/nginx/html/404.html:ro
     - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+#    extra_hosts:
+#      - 'host.docker.internal:10.187.1.55'
   jmetermaster:
     image: ninetom/jmeter5:5.4.1
     container_name: jmetermaster
