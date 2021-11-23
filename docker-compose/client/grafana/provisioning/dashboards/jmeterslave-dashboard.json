@@ -22,7 +22,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": null,
   "graphTooltip": 0,
-  "iteration": 1637639976292,
+  "iteration": 1637643865680,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -87,6 +87,66 @@
       "type": "stat"
     },
     {
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 3,
+        "y": 0
+      },
+      "id": 14,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.2.2",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "avg(rate(jmeter_hist_count{job=\"jmeter\"}[1m]))",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "ThroughPut",
+      "type": "stat"
+    },
+    {
       "aliasColors": {
         "Failure ": "#bf1b00",
         "Virtual Users": "semi-dark-blue"
@@ -105,9 +165,9 @@
       "fill": 0,
       "fillGradient": 0,
       "gridPos": {
-        "h": 6,
+        "h": 10,
         "w": 8,
-        "x": 3,
+        "x": 8,
         "y": 0
       },
       "height": "400",
@@ -159,7 +219,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "rate(jmeter_rt_as_summary{code=\"200\", job=\"jmeter\", quantile=\"$quantile\"}[1m])",
+          "expr": "jmeter_rt_as_summary{code=\"200\", job=\"jmeter\", quantile=\"$percentile\"}",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -230,6 +290,89 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 16,
+        "y": 0
+      },
+      "id": 19,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "jmeter_rt_as_summary{code!=\"200\", job=\"jmeter\", quantile=\"$percentile\"}",
+          "interval": "",
+          "legendFormat": "{{label}} - {{code}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Response Time (Error)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
             "axisLabel": "Request per Second",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -274,38 +417,13 @@
           },
           "unit": "short"
         },
-        "overrides": [
-          {
-            "__systemRef": "hideSeriesFrom",
-            "matcher": {
-              "id": "byNames",
-              "options": {
-                "mode": "exclude",
-                "names": [
-                  "sleep1second"
-                ],
-                "prefix": "All except:",
-                "readOnly": true
-              }
-            },
-            "properties": [
-              {
-                "id": "custom.hideFrom",
-                "value": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": true
-                }
-              }
-            ]
-          }
-        ]
+        "overrides": []
       },
       "gridPos": {
-        "h": 6,
-        "w": 7,
-        "x": 11,
-        "y": 0
+        "h": 7,
+        "w": 8,
+        "x": 0,
+        "y": 3
       },
       "id": 12,
       "options": {
@@ -331,232 +449,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": null,
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 3,
-        "x": 0,
-        "y": 3
-      },
-      "id": 14,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "auto"
-      },
-      "pluginVersion": "8.2.2",
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "min(rate(jmeter_hist_count{job=\"jmeter\"}[1m]))",
-          "interval": "",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "ThroughPut",
-      "type": "stat"
-    },
-    {
-      "datasource": null,
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "ms"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 11,
-        "x": 0,
-        "y": 6
-      },
-      "id": 18,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single"
-        }
-      },
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "jmeter_rt_as_summary{code=\"200\", job=\"jmeter\", quantile=\"$percentile\"}",
-          "interval": "",
-          "legendFormat": "{{label}}",
-          "refId": "A"
-        }
-      ],
-      "title": "Latency Time",
-      "type": "timeseries"
-    },
-    {
-      "datasource": null,
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "ms"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 11,
-        "x": 11,
-        "y": 6
-      },
-      "id": 19,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single"
-        }
-      },
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "rate(jmeter_rt_as_summary{code!=\"200\", job=\"jmeter\", quantile=\"$quantile\"}[1m])",
-          "interval": "",
-          "legendFormat": "{{label}} - {{code}}",
-          "refId": "A"
-        }
-      ],
-      "title": "Response Time (Error)",
-      "type": "timeseries"
-    },
-    {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
@@ -569,7 +461,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 14
+        "y": 10
       },
       "hiddenSeries": false,
       "id": 21,
@@ -603,7 +495,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "irate(http_server_requests_seconds_sum{job=\"app-spring\", exception=\"None\", uri!~\".*actuator.*\"}[5m]) / irate(http_server_requests_seconds_count{job=\"app-spring\", exception=\"None\", uri!~\".*actuator.*\"}[5m])",
+          "expr": "irate(http_server_requests_seconds_sum{job=\"app-spring\", exception=\"None\", uri!~\".*actuator.*\"}[1m]) / irate(http_server_requests_seconds_count{job=\"app-spring\", exception=\"None\", uri!~\".*actuator.*\"}[1m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -615,7 +507,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Http Response Time",
+      "title": "Spring Metrics - Response Time",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -655,7 +547,7 @@
       }
     }
   ],
-  "refresh": "",
+  "refresh": "5s",
   "schemaVersion": 31,
   "style": "dark",
   "tags": [],
@@ -665,8 +557,8 @@
         "allValue": null,
         "current": {
           "selected": true,
-          "text": "0.75",
-          "value": "0.75"
+          "text": "0.99",
+          "value": "0.99"
         },
         "datasource": null,
         "definition": "label_values(jmeter_rt_as_summary{code=\"200\"}, quantile)",
@@ -698,5 +590,5 @@
   "timezone": "",
   "title": "JMeter",
   "uid": "3GB2hZpnk",
-  "version": 1
+  "version": 2
 }
