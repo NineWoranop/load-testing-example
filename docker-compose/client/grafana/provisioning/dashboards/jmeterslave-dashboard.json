@@ -22,7 +22,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": null,
   "graphTooltip": 0,
-  "iteration": 1637571882003,
+  "iteration": 1637639976292,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -274,7 +274,32 @@
           },
           "unit": "short"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "sleep1second"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 6,
@@ -356,7 +381,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(rate(jmeter_hist_count{job=\"jmeter\"}[1m]))",
+          "expr": "min(rate(jmeter_hist_count{job=\"jmeter\"}[1m]))",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -439,7 +464,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "rate(jmeter_latency_as_hist_sum{job=\"jmeter\"}[1m])/\nrate(jmeter_latency_as_hist_count{job=\"jmeter\"}[1m])",
+          "expr": "jmeter_rt_as_summary{code=\"200\", job=\"jmeter\", quantile=\"$percentile\"}",
           "interval": "",
           "legendFormat": "{{label}}",
           "refId": "A"
@@ -530,9 +555,107 @@
       ],
       "title": "Response Time (Error)",
       "type": "timeseries"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "description": "",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 14
+      },
+      "hiddenSeries": false,
+      "id": 21,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": false,
+        "max": true,
+        "min": true,
+        "rightSide": true,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.2.2",
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "irate(http_server_requests_seconds_sum{job=\"app-spring\", exception=\"None\", uri!~\".*actuator.*\"}[5m]) / irate(http_server_requests_seconds_count{job=\"app-spring\", exception=\"None\", uri!~\".*actuator.*\"}[5m])",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{method}} [{{status}}] - {{uri}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Http Response Time",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:613",
+          "format": "s",
+          "label": "",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:614",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     }
   ],
-  "refresh": "5s",
+  "refresh": "",
   "schemaVersion": 31,
   "style": "dark",
   "tags": [],
@@ -541,7 +664,7 @@
       {
         "allValue": null,
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "0.75",
           "value": "0.75"
         },
@@ -551,9 +674,9 @@
         "error": null,
         "hide": 0,
         "includeAll": false,
-        "label": "Quantile",
+        "label": "Percentile",
         "multi": false,
-        "name": "quantile",
+        "name": "percentile",
         "options": [],
         "query": {
           "query": "label_values(jmeter_rt_as_summary{code=\"200\"}, quantile)",
@@ -568,7 +691,7 @@
     ]
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {},
