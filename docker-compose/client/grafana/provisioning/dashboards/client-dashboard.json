@@ -294,7 +294,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum((avg by (mode) (rate(node_cpu_seconds_total{job=\"cli-host\",mode!=\"idle\"}[1m])))*200)",
+          "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{job=\"cli-host\",mode=\"idle\"}[1m])) * 100)",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -573,9 +573,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum((avg by (mode) (rate(node_cpu_seconds_total{job=\"cli-host\",mode!=\"idle\"}[1m])))*200)",
+          "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{job=\"cli-host\",mode=\"idle\"}[1m])) * 100)",
           "interval": "",
-          "legendFormat": "{{cpu}}",
+          "legendFormat": "avg",
           "refId": "A"
         }
       ],
@@ -743,7 +743,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "1-(node_filesystem_free_bytes{job=\"cli-host\",fstype=~\"ext4|xfs\"} / node_filesystem_size_bytes{job=\"cli-host\",fstype=~\"ext4|xfs\"})",
+          "expr": "100*(1-(node_filesystem_free_bytes{job=\"cli-host\",fstype=~\"ext4|xfs\"} / node_filesystem_size_bytes{job=\"cli-host\",fstype=~\"ext4|xfs\"}))",
           "interval": "",
           "legendFormat": "{{device}}",
           "refId": "A"
@@ -1813,7 +1813,7 @@
       "type": "timeseries"
     }
   ],
-  "refresh": "1m",
+  "refresh": "5s",
   "schemaVersion": 31,
   "style": "dark",
   "tags": [],
@@ -1821,7 +1821,7 @@
     "list": []
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {},
