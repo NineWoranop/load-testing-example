@@ -23,25 +23,25 @@ services:
     ports:
     - 9095:9095
     command:
-      - '-Dserver.port=9095'
-      - '-Dserver.tomcat.max-connections=10000'
-      - '-Dserver.tomcat.min-spare-threads=50'
-      - '-Dserver.tomcat.max-threads=5000'
-      - '-Dspring.datasource.hikari.minimum-idle=50'
-      - '-Dspring.datasource.hikari.maximum-pool-size=5000'
-      - '-Dmanagement.endpoint.metrics.enabled=true'
-      - '-Dmanagement.endpoint.prometheus.enabled=true'
-      - '-Dmanagement.endpoints.web.exposure.include=*'
-      - '-Dserver.tomcat.mbeanregistry.enabled=true'
-      - '-Xms2048m'
-      - '-Xmx2048m'
-      - '-jar'
-      - 'app.jar'
+    - '-Dserver.port=9095'
+    - '-Dserver.tomcat.max-connections=10000'
+    - '-Dserver.tomcat.min-spare-threads=50'
+    - '-Dserver.tomcat.max-threads=5000'
+    - '-Dspring.datasource.hikari.minimum-idle=50'
+    - '-Dspring.datasource.hikari.maximum-pool-size=5000'
+    - '-Dmanagement.endpoint.metrics.enabled=true'
+    - '-Dmanagement.endpoint.prometheus.enabled=true'
+    - '-Dmanagement.endpoints.web.exposure.include=*'
+    - '-Dserver.tomcat.mbeanregistry.enabled=true'
+    - '-Xms2048m'
+    - '-Xmx2048m'
+    - '-jar'
+    - 'app.jar'
     entrypoint: 'java'
     deploy:
       resources:
         limits:
-          cpus: '0.90'
+          cpus: '3.90'
           memory: 2300M
         reservations:
           cpus: '0.1'
@@ -63,4 +63,4 @@ services:
         reservations:
           cpus: '0.01'
     extra_hosts:
-      - 'host.docker.internal:10.187.1.52'
+    - 'host.docker.internal:10.187.1.52'
