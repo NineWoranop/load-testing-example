@@ -1,0 +1,40 @@
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+	<changeSet id="schema_table_schools" author="" dbms="mysql">
+		<createTable tableName="schools">
+	        <column name="id" type="BIGINT" autoIncrement="true">
+	            <constraints primaryKey="true" nullable="false"/>
+	        </column>
+			<column name="name" type="varchar(250)" />
+			<column name="created_date" type="timestamp" />
+			<column name="last_modified_date" type="timestamp" />
+	 	</createTable>
+	</changeSet>
+
+	<changeSet id="schema_table_students" author="" dbms="mysql">
+		<createTable tableName="students">
+	        <column name="id" type="BIGINT" autoIncrement="true">
+	            <constraints primaryKey="true" nullable="false"/>
+	        </column>
+			<column name="school_id" type="BIGINT" />
+			<column name="name" type="varchar(250)" />
+			<column name="created_date" type="timestamp" />
+			<column name="last_modified_date" type="timestamp" />
+	 	</createTable>
+	</changeSet>
+
+	<changeSet author="" id="data" dbms="mysql">
+		<loadData encoding="UTF-8"
+			file="classpath:db/csv/001-schools.csv"
+			quotchar="&quot;" separator="," tableName="schools">
+		</loadData>
+		<loadData encoding="UTF-8"
+			file="classpath:db/csv/002-students.csv"
+			quotchar="&quot;" separator="," tableName="students">
+		</loadData>
+	</changeSet>
+
+</databaseChangeLog>
