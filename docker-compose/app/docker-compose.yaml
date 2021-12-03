@@ -14,45 +14,87 @@ services:
     - /dev/disk:/dev/disk/:ro
     command:
     - '-port=8082'
-    depends_on:
-    - appspring
 
-  appspring:
+  appspring1:
     image: ninetom/spring-boot2-examples-backend:latest
-    container_name: 'appspring'
+    container_name: 'appspring1'
     ports:
     - 9095:9095
     command:
     - '-Dserver.port=9095'
-    - '-Dserver.tomcat.max-connections=10000'
+    - '-Dserver.tomcat.max-connections=5000'
     - '-Dserver.tomcat.min-spare-threads=50'
-    - '-Dserver.tomcat.max-threads=5000'
+    - '-Dserver.tomcat.max-threads=60'
     - '-Dspring.datasource.hikari.minimum-idle=50'
-    - '-Dspring.datasource.hikari.maximum-pool-size=5000'
+    - '-Dspring.datasource.hikari.maximum-pool-size=60'
     - '-Dmanagement.endpoint.metrics.enabled=true'
     - '-Dmanagement.endpoint.prometheus.enabled=true'
     - '-Dmanagement.endpoints.web.exposure.include=*'
     - '-Dserver.tomcat.mbeanregistry.enabled=true'
-    - '-Dspring.datasource.url=jdbc:mysql://database:3306/example_db'
+    - '-Dspring.datasource.url=jdbc:mysql://10.187.1.56:3306/example_db'
     - '-Dspring.datasource.username=example_user'
     - '-Dspring.datasource.password=example'
     - '-Dspring.datasource.driverClassName=com.mysql.jdbc.Driver'
     - '-Dspring.jpa.database-platform=org.hibernate.dialect.MySQL5InnoDBDialect'
-    - '-Xms2048m'
-    - '-Xmx2048m'
+    - '-Xms580m'
+    - '-Xmx580m'
     - '-jar'
     - 'app.jar'
     entrypoint: 'java'
-    deploy:
-      resources:
-        limits:
-          cpus: '3.90'
-          memory: 2300M
-        reservations:
-          cpus: '0.1'
-          memory: 2300M
-    links:
-    - database:database
+
+  appspring2:
+    image: ninetom/spring-boot2-examples-backend:latest
+    container_name: 'appspring2'
+    ports:
+    - 9096:9096
+    command:
+    - '-Dserver.port=9096'
+    - '-Dserver.tomcat.max-connections=5000'
+    - '-Dserver.tomcat.min-spare-threads=50'
+    - '-Dserver.tomcat.max-threads=60'
+    - '-Dspring.datasource.hikari.minimum-idle=50'
+    - '-Dspring.datasource.hikari.maximum-pool-size=60'
+    - '-Dmanagement.endpoint.metrics.enabled=true'
+    - '-Dmanagement.endpoint.prometheus.enabled=true'
+    - '-Dmanagement.endpoints.web.exposure.include=*'
+    - '-Dserver.tomcat.mbeanregistry.enabled=true'
+    - '-Dspring.datasource.url=jdbc:mysql://10.187.1.56:3306/example_db'
+    - '-Dspring.datasource.username=example_user'
+    - '-Dspring.datasource.password=example'
+    - '-Dspring.datasource.driverClassName=com.mysql.jdbc.Driver'
+    - '-Dspring.jpa.database-platform=org.hibernate.dialect.MySQL5InnoDBDialect'
+    - '-Xms580m'
+    - '-Xmx580m'
+    - '-jar'
+    - 'app.jar'
+    entrypoint: 'java'
+
+  appspring3:
+    image: ninetom/spring-boot2-examples-backend:latest
+    container_name: 'appspring3'
+    ports:
+    - 9097:9097
+    command:
+    - '-Dserver.port=9097'
+    - '-Dserver.tomcat.max-connections=5000'
+    - '-Dserver.tomcat.min-spare-threads=50'
+    - '-Dserver.tomcat.max-threads=60'
+    - '-Dspring.datasource.hikari.minimum-idle=50'
+    - '-Dspring.datasource.hikari.maximum-pool-size=60'
+    - '-Dmanagement.endpoint.metrics.enabled=true'
+    - '-Dmanagement.endpoint.prometheus.enabled=true'
+    - '-Dmanagement.endpoints.web.exposure.include=*'
+    - '-Dserver.tomcat.mbeanregistry.enabled=true'
+    - '-Dspring.datasource.url=jdbc:mysql://10.187.1.56:3306/example_db'
+    - '-Dspring.datasource.username=example_user'
+    - '-Dspring.datasource.password=example'
+    - '-Dspring.datasource.driverClassName=com.mysql.jdbc.Driver'
+    - '-Dspring.jpa.database-platform=org.hibernate.dialect.MySQL5InnoDBDialect'
+    - '-Xms580m'
+    - '-Xmx580m'
+    - '-jar'
+    - 'app.jar'
+    entrypoint: 'java'
 
   nginx:
     image: nginx:1.21.4-perl
@@ -71,37 +113,7 @@ services:
           cpus: '0.01'
     extra_hosts:
     - 'host.docker.internal:10.187.1.52'
-
-  database:
-    container_name: database
-    image: mysql:5.7
-    command: --default-authentication-plugin=mysql_native_password
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: example_db
-      MYSQL_USER: example_user
-      MYSQL_PASSWORD: example
-      MYSQL_LOWER_CASE_TABLE_NAMES: 1
-    volumes:
-      - ./mysql/data:/var/lib/mysql:rw
-
-  adminer:
-    container_name: adminer
-    image: adminer:4
-    ports:
-    - 7777:7777
-    environment:
-      ADMINER_DEFAULT_SERVER: database
-    command:
-    - 'php'
-    - '-S'
-    - '[::]:7777'
-    - '-t'
-    - '/var/www/html'
-    entrypoint:
-    - 'entrypoint.sh'
-    - 'docker-php-entrypoint'
     links:
-    - database:database
+    - appspring1:appspring1
+    - appspring2:appspring2
+    - appspring3:appspring3

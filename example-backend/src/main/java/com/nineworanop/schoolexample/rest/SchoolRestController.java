@@ -3,6 +3,8 @@ package com.nineworanop.schoolexample.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,12 +25,12 @@ public class SchoolRestController {
 	}
 
 	@GetMapping(path = "/findAll")
-	public List<School> findAll() {
-		return schoolService.getSchools();
+	public ResponseEntity<List<School>> findAll() {
+		return new ResponseEntity<>(schoolService.getSchools(), HttpStatus.OK);
 	}
 
 	@GetMapping(path = "/findByName/{name}")
-	public List<School> findByName(@PathVariable(value="name") String name) {
-		return schoolService.findSchoolsByNameContainingIgnoreCase(name);
+	public ResponseEntity<List<School>> findByName(@PathVariable(value="name") String name) {
+		return new ResponseEntity<>(schoolService.findSchoolsByNameContainingIgnoreCase(name), HttpStatus.OK);
 	}
 }

@@ -8,10 +8,10 @@ yum remove docker-ce-rootless-extras docker-ce docker-selinux docker-scan-plugin
 cp /tools/docker/docker-ce.repo /etc/yum.repos.d/
 
 #### Install containerd.io, docker-ce-cli, container-selinux, docker-ce packages in order.
-yum update
-yum install policycoreutils-python 
-yum install fuse-overlayfs
-yum install slirp4netns
+yum update -y
+yum install -y policycoreutils-python 
+yum install -y fuse-overlayfs
+yum install -y slirp4netns
 rpm -ivh container-selinux-2.107-3.el7.noarch.rpm
 rpm -ivh containerd.io-1.4.11-3.1.el7.x86_64.rpm
 rpm -ivh docker-scan-plugin-0.9.0-3.el7.x86_64.rpm docker-ce-cli-20.10.10-3.el7.x86_64.rpm
