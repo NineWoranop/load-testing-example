@@ -14,3 +14,10 @@ docker load --input prometheus.tar
 docker load --input alertmanager.tar
 docker load --input grafana.tar
 docker load --input nginx.tar
+
+sudo systemctl stop docker.socket
+sudo systemctl stop docker
+sudo systemctl start docker.socket
+sudo systemctl start docker
+sudo systemctl daemon-reload
+sudo systemctl restart docker

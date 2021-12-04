@@ -47,13 +47,27 @@ scrape_configs:
     static_configs:
     - targets:
       - 'app.server.internal:8082'
-  - job_name: 'app-spring'
+  - job_name: 'app-spring1'
     scrape_interval: 10s
     scrape_timeout: 5s
     metrics_path: '/actuator/prometheus'
     static_configs:
     - targets:
       - 'app.server.internal:9095'
+  - job_name: 'app-spring2'
+    scrape_interval: 10s
+    scrape_timeout: 5s
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+    - targets:
+      - 'app.server.internal:9096'
+  - job_name: 'app-spring3'
+    scrape_interval: 10s
+    scrape_timeout: 5s
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+    - targets:
+      - 'app.server.internal:9097'
   - job_name: 'cli-host'
     scrape_interval: 10s
     scrape_timeout: 5s
